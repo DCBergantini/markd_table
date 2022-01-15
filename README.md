@@ -1,30 +1,41 @@
 # Markdown
-Cria template de documentação de tabelas em markdown.
 
+Cria template de documentação de tabelas em markdown a partir de um arquivo tabular csv ou excel.
 
-## **Dependencies**
+## Setup
 
-```
-1. import snakemd
-2. import re
-3. import unidecode
-4. import pandas
-```
-## Repository template
+Install the dependencies with…
 
 ```
-C:
-└───markd_table
-    ├───inputs
-    │   └───tables
-    └───outputs
+pip3 install -r requirements.txt
 ```
 
-## **How it works?**
+## Running
 
-1-Insert or create your tables files in `./input/tables`.
-2-Run the main file in your prompt command.
-3-Check your new markdown file.
+Running the following command…
 
+```
+$ python3 src/main.py -s examples/demo.csv
+```
 
+…outputs the following markdown…
 
+```
+# Demo
+
+DESCRIPTION
+
+## Model
+
+| Column     | Type | Example Value | Description | Format |
+| :--------- | :--- | :------------ | :---------- | :----- |
+| Name       | TYPE | Jon Doe       | DESCRIPTION | FORMAT |
+| Phone      | TYPE | 999001216     | DESCRIPTION | FORMAT |
+| Birth Date | TYPE | 2022-01-14    | DESCRIPTION | FORMAT |
+| Net Worth  | TYPE | 100000000     | DESCRIPTION | FORMAT |
+```
+Check the help command…
+
+```
+python3 src/main.py --help
+```
