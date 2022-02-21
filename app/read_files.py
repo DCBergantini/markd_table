@@ -1,5 +1,6 @@
 
 from dataclasses import dataclass
+import chardet
 
 @dataclass(order=True)
 class Dataset:
@@ -25,9 +26,12 @@ class Dataset:
         return list_of_columns_info
 
 
-def csv(path="C:/Users/bergantinid.APEXPARTNERS/Desktop/projects/markd_table/examples/demo.csv", delimiter="\t"):
+def csv(path="C:/Users/bergantinid.APEXPARTNERS/Desktop/projects/markd_table/examples/demo.csv", delimiter=","):
 
-    file = open(path, "r")
+    with open(path, 'rb') as rawdata:
+        encoding_type = chardet.detect(rawdata.read(10000)).get("encoding")
+
+    file = open(path, "r", encoding=encoding_type)
     
     list_rows = []
 

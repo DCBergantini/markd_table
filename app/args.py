@@ -1,5 +1,6 @@
 import argparse
 import sys
+
 def get_args():
 
     parser = argparse.ArgumentParser(description="Generate a structured markdown documentation template for a tabular file;")

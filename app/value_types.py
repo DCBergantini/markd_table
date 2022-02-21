@@ -5,27 +5,27 @@ class VerifyType():
 
     def __check_date_value(value):
                 
-        if re.match(r"([0-9]{,2}\/[0-9]{,2}\/[0-9]{4,})", value):
+        if re.fullmatch(r"([0-9]{,2}\/[0-9]{,2}\/[0-9]{4,})", value):
 
             return "date"
 
-        elif re.match(r"([0-9]{,2}\-[0-9]{,2}\-[0-9]{4,})", value):
+        elif re.fullmatch(r"([0-9]{,2}\-[0-9]{,2}\-[0-9]{4,})", value):
 
             return "date"
 
-        elif re.match(r"([0-9]{,2}\.[0-9]{,2}\.[0-9]{4,})", value):
+        elif re.fullmatch(r"([0-9]{,2}\.[0-9]{,2}\.[0-9]{4,})", value):
             
             return "date"
 
-        elif re.match(r"([0-9]{4,}\/[0-9]{,2}\/[0-9]{,2})", value):
+        elif re.fullmatch(r"([0-9]{4,}\/[0-9]{,2}\/[0-9]{,2})", value):
             
             return "date"
 
-        elif re.match(r"([0-9]{4,}\-[0-9]{,2}\-[0-9]{,2})", value):
+        elif re.fullmatch(r"([0-9]{4,}\-[0-9]{,2}\-[0-9]{,2})", value):
             
             return "date"
 
-        elif re.match(r"([0-9]{4,}\.[0-9]{,2}\.[0-9]{,2})", value):
+        elif re.fullmatch(r"([0-9]{4,}\.[0-9]{,2}\.[0-9]{,2})", value):
             
             return "date"
         
@@ -38,20 +38,21 @@ class VerifyType():
         
         list_types=[]
         
+        list_values = [value for value in list_values if value]
 
         for value in list_values:
 
             if (isinstance(value, str)==True):
 
-                if re.match(r"^[0]\d*", value):
+                if re.fullmatch(r"^[0]\d*", value):
                     
                     list_types.append("string_number")
                 
-                elif re.match(r"[1-9]*", value):
+                elif re.fullmatch(r"^[1-9]\d*", value):
                     
                     list_types.append("number_integer")
 
-                elif re.match(r"(\d*[\,\.])*\d*", value):
+                elif re.fullmatch(r"^[+-]?(\d+([\.\,])?)*", value):
                     
                     list_types.append("number_decimal")
     
@@ -59,9 +60,15 @@ class VerifyType():
                 
                     list_types.append("date")
                 
-                elif re.match(r"([0-9]{4,}\-[0-9]{,2}\-[0-9]{,2}\ [0-9]{,2}\:[0-9]{,2}\:[0-9]{,2}\.?[0-9]*)", value):
+                elif re.fullmatch(r"([0-9]{4,}\-[0-9]{,2}\-[0-9]{,2}\ [0-9]{,2}\:[0-9]{,2}\:[0-9]{,2}\.?[0-9]*)", value):
                     
                     list_types.append("datetime")
+                
+                elif not value:
+                    list_types.append("undefined")
+        
+        if len(list_types) == 0:
+            list_types.append("None")
 
         return mode(list_types)
 
@@ -71,20 +78,21 @@ class VerifyType():
         
         list_types=[]
         list_len=[]
+        list_values = [value for value in list_values if value]
 
         for value in list_values:
 
             if (isinstance(value, str)==True):
 
-                if re.match(r"^[0]\d*", value):
+                if re.fullmatch(r"^[0]\d*", value):
                     
                     list_types.append("int")
                 
-                elif re.match(r"[1-9]*", value):
+                elif re.fullmatch(r"^[1-9]\d*", value):
                     
                     list_types.append("int")
 
-                elif re.match(r"(\d*[\,\.])*\d*", value):
+                elif re.fullmatch(r"^[+-]?(\d+([\.\,])?)*", value):
                     
                     list_types.append("decimal")
     
@@ -92,15 +100,18 @@ class VerifyType():
                 
                     list_types.append("date")
                 
-                elif re.match(r"([0-9]{4,}\-[0-9]{,2}\-[0-9]{,2}\ [0-9]{,2}\:[0-9]{,2}\:[0-9]{,2}\.?[0-9]*)", value):
+                elif re.fullmatch(r"([0-9]{4,}\-[0-9]{,2}\-[0-9]{,2}\ [0-9]{,2}\:[0-9]{,2}\:[0-9]{,2}\.?[0-9]*)", value):
                     
                     list_types.append("datetime")
-                
+
                 else:
                     tamanho = len(value)
                     list_len.append(tamanho)
                     list_types.append(f"Varchar()")
-        
+
+        if len(list_types) == 0:
+            list_types.append("None")
+                
         if mode(list_types) == "Varchar()":
            type = f"Varchar({str(max(list_len)*2)})"
         
@@ -113,20 +124,21 @@ class VerifyType():
     def python_type(list_values: list):
         
         list_types=[]
+        list_values = [value for value in list_values if value]
 
         for value in list_values:
 
             if (isinstance(value, str)==True):
 
-                if re.match(r"^[0]\d*", value):
+                if re.fullmatch(r"^[0]\d*", value):
                     
                     list_types.append("int")
                 
-                elif re.match(r"[1-9]*", value):
+                elif re.fullmatch(r"^[1-9]\d*", value):
                     
                     list_types.append("int")
 
-                elif re.match(r"(\d*[\,\.])*\d*", value):
+                elif re.fullmatch(r"^[+-]?(\d+([\.\,])?)*", value):
                     
                     list_types.append("float")
     
@@ -134,12 +146,18 @@ class VerifyType():
                 
                     list_types.append("date")
                 
-                elif re.match(r"([0-9]{4,}\-[0-9]{,2}\-[0-9]{,2}\ [0-9]{,2}\:[0-9]{,2}\:[0-9]{,2}\.?[0-9]*)", value):
+                elif re.fullmatch(r"([0-9]{4,}\-[0-9]{,2}\-[0-9]{,2}\ [0-9]{,2}\:[0-9]{,2}\:[0-9]{,2}\.?[0-9]*)", value):
                     
                     list_types.append("datetime")
                 
+                elif not value:
+                    list_types.append("None")
+        
                 else:
                     list_types.append("str")
+        
+        if len(list_types) == 0:
+            list_types.append("None")
 
         return mode(list_types)
 

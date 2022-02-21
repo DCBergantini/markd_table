@@ -7,8 +7,13 @@ def generate_schema_table(list_dataset, choosed_type):
     table_schema=[]
     
     for column in list_dataset:
+        list_values = [value for value in column.column_values if value]
         
-        value=column.column_values[0] if column.column_values else "null"
+        if len(list_values) > 0:
+            value = list_values[0]
+        
+        else:
+            value = None
         
         if choosed_type=="sql":
 
@@ -33,9 +38,8 @@ def generate_schema_table(list_dataset, choosed_type):
 def identify_variants(dataset):
 
     column_name = dataset.column_name
-    print(column_name)
     values=utils.get_unique_values(dataset.column_values)
-    print(values)
+
     if values and len(values) > 10:
         
         list_variants=values[:10]
@@ -63,7 +67,7 @@ def identify_variants(dataset):
 def identify_null_columns(dataset):
 
     values = utils.get_unique_values(dataset.column_values)
-    
+    print(values)
     if bool(values)==False:
 
         return True
